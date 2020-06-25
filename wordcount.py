@@ -5,6 +5,8 @@
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
 
+
+
 """Wordcount exercise
 
 The main() function is already defined and complete. It calls the
@@ -25,29 +27,41 @@ should return a dictionary with words as keys, and their counts as values.
 
 # Your name, plus anyone who helped you with this assignment
 # Give credit where credit is due.
-__author__ = "???"
+__author__ = "Joseph Paadgett"
 
 import sys
-
+from heapq import nlargest
 
 def create_word_dict(filename):
     """Returns a word/count dict for the given file."""
-    # Your code here
-    return
-
+    book_count = {}
+    with open(filename, "r") as f:
+        for line in f:
+            words = line.split()
+            for word in words:
+                if word.lower() in book_count:
+                    book_count[word.lower()] += 1
+                else:
+                    book_count[word.lower()] = 1
+    return book_count
 
 def print_words(filename):
     """Prints one per line '<word> : <count>', sorted
     by word for the given file.
     """
-    # Your code here
-    return
+    word_holder = create_word_dict(filename)
+    for word in sorted(word_holder):
+        print(word, ":", word_holder[word])
+
 
 
 def print_top(filename):
     """Prints the top count listing for the given file."""
-    # Your code here
-    return
+    word_holder = create_word_dict(filename)
+    top_twenty_words = nlargest(20, word_holder, key=word_holder.get)
+    for word in top_twenty_words:
+        print(word, ":", word_holder[word])
+ 
 
 
 # This basic command line argument parsing code is provided and calls
